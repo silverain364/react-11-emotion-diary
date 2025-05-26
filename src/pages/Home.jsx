@@ -1,15 +1,21 @@
-import React , {useState, useContext}from 'react'
-import { DiaryDispatchContext, DiaryStateContext } from '../App'
+import React, {useState,useContext} from 'react'
+import { DiaryStateContext } from '../App'
 import Header from '../components/Header'
 import Button from '../components/Button'
 import DiaryList from '../components/DiaryList'
+import usePageTitle from '../hooks/usePageTitle'
 
 const Home = () => {
 
-  const [pivotDate, SetpivotDate] = useState(new Date())
-  const data = useContext(DiaryStateContext)
+  const [pivotDate,setPivotDate]=useState(new Date())
 
-  const getMonthlyDate = (pivotDate, data)=> {
+  const data =useContext(DiaryStateContext)
+
+
+
+  usePageTitle('손은비의 감정일기장')
+
+  const getMonthlyData=(pivotDate,data)=>{
     const beginTime=new Date(
       pivotDate.getFullYear(),
       pivotDate.getMonth(),
@@ -18,7 +24,7 @@ const Home = () => {
       0,
       0
     ).getTime()
-    const endTime = new Date(
+    const endTime= new Date(
       pivotDate.getFullYear(),
       pivotDate.getMonth()+1,
       0,
@@ -26,31 +32,32 @@ const Home = () => {
       59,
       59
     ).getTime()
+    
 
     return data.filter(
-      (item)=> beginTime <= item.createdDate && item.createdDate<=endTime
+      (item)=> beginTime<= item.createdDate && item.createdDate<=endTime
     )
+
   }
 
-  const onIncreaseMonth = () => {
-    SetpivotDate(
+  const onIncreaseMonth = ()=>{
+    setPivotDate(
       new Date(pivotDate.getFullYear(), pivotDate.getMonth()+1)
     )
   }
-  const onDecreaseMonth = () => {
-    SetpivotDate(
+  const onDecreaseMonth = ()=>{
+    setPivotDate(
       new Date(pivotDate.getFullYear(), pivotDate.getMonth()-1)
     )
   }
 
-  const monthlyData = getMonthlyDate(pivotDate, data)
-
+  const monthlyData = getMonthlyData(pivotDate,data)
   return (
     <div>
       <Header
       title={`${pivotDate.getFullYear()}년 ${pivotDate.getMonth()+1}월`}
       leftChild={<Button text={"<"} onClick={onDecreaseMonth}/>}
-      rightChild={<Button text={">"}onClick={onIncreaseMonth}/>}
+      rightChild={<Button text={">"} onClick={onIncreaseMonth}/>}
       />
       <DiaryList data={monthlyData}/>
     </div>

@@ -2,22 +2,20 @@
     display: flex;
     align-items: center;
     padding: 20px 0;
-    border-bottom:1px solid #eee
+    border-bottom: 1px solid #eee;
 }
 .Header>div {
     display: flex;
 }
-
 .header_center {
     width: 50%;
     font-size: 25px;
     justify-content: center;
 }
-.header_left{
+.header_left {
     width: 25%;
     justify-content: flex-start;
 }
-
 .header_right {
     width: 25%;
     justify-content: flex-end;
